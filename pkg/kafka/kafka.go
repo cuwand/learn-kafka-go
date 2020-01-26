@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"fmt"
 	goKafka "github.com/Shopify/sarama"
-	"github.com/karirdotcom/qframework/pkg/common/qerror"
 	"time"
 )
 
@@ -197,7 +196,7 @@ type HandlerConsumer interface {
  * handler := qKafka.HandlerFunc(func(m *qKafka.Message) error {
  * 		   var age int
  *  	   if err := json.Unmarshal(m.Value, &age); err != nil {
- * 				  return qerror.NewError(err)
+ * 				  return err
  *		   }
  *		   return nil
  * })
@@ -242,7 +241,7 @@ func (consumer *ConsumerGroup) ConsumeClaim(session goKafka.ConsumerGroupSession
 		})
 
 		if err != nil {
-			return qerror.NewError(err)
+			return err
 		}
 
 		session.MarkMessage(message, "")
